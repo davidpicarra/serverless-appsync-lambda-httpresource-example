@@ -1,0 +1,8 @@
+type Query {
+  getWeatherWithHTTPResource(format: String): String
+  getWeatherWithLambda(format: String): String
+}
+
+schema {
+  query: Query
+}

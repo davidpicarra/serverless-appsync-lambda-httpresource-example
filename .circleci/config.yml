@@ -1,0 +1,87 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/project/serverless-appsync-lambda-httpresource-example
+  docker:
+    - image: circleci/node:10
+
+jobs:
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Yarn audit packages
+          command: yarn audit
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - serverless-appsync-lambda-httpresource-example
+
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: "JavaScript Linter"
+          command: yarn lint --format junit -o reports/junit/js-lint-results.xml
+      - store_test_results:
+          path: reports/junit
+
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: "Install dependencies needed for running tests"
+          command: sudo apt-get update && sudo apt-get install -y lsof zip python3 default-jre
+      - run:
+          name: "JavaScript Test Suite"
+          command: yarn test --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: coverage
+
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: "Deploy serverless"
+          command: echo "yarn sls:deploy"
+
+workflows:
+  version: 2
+  install-and-parallel-test:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - test:
+          requires:
+            - install
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master

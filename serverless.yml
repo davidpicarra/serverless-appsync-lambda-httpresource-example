@@ -1,0 +1,106 @@
+service: core-cd-api
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: eu-west-1
+
+plugins:
+  - serverless-appsync-plugin
+  - serverless-appsync-offline
+  - serverless-offline
+
+functions:
+  graphql:
+    handler: src/handler.graphqlHandler
+
+custom:
+  accountId: 123456789 # use correct AWS accountId
+  appsync-offline:
+    port: 62222
+    dynamodb:
+      client:
+        endpoint: "http://localhost:8000"
+  appSync:
+    name: ${self:service}
+    authenticationType: API_KEY
+    logConfig:
+      loggingRoleArn: { Fn::GetAtt: [AppSyncLoggingServiceRole, Arn] }
+      level: ALL
+    mappingTemplates:
+      - dataSource: myDataSource
+        type: Query
+        field: getWeatherWithHTTPResource
+        request: "getWeatherWithHTTPResource-request-mapping-template.vtl"
+        response: "getWeatherWithHTTPResource-response-mapping-template.vtl"
+      - dataSource: myLambda
+        type: Query
+        field: getWeatherWithLambda
+        request: "getWeatherWithLambda-request-mapping-template.vtl"
+        response: "getWeatherWithLambda-response-mapping-template.vtl"
+    serviceRole: "AppSyncServiceRole"
+    dataSources:
+      - type: AWS_LAMBDA
+        name: myLambda
+        description: 'Lambda DataSource'
+        config:
+          functionName: graphql
+          lambdaFunctionArn: { Fn::GetAtt: [GraphqlLambdaFunction, Arn] }
+          serviceRoleArn: { Fn::GetAtt: [AppSyncLambdaServiceRole, Arn] }
+      - type: HTTP
+        name: myDataSource
+        description: 'HTTP Endpoint'
+        config:
+          endpoint: 'https://wttr.in/'
+
+resources:
+  Resources:
+    AppSyncLambdaServiceRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+        RoleName: "${self:service}-Lambda-AppSyncServiceRole"
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service:
+                  - "appsync.amazonaws.com"
+              Action:
+                - "sts:AssumeRole"
+        Policies:
+          - PolicyName: "Lambda-AppSyncServiceRole-Policy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: "Allow"
+                  Action:
+                    - "lambda:invokeFunction"
+                  Resource:
+                    - "arn:aws:lambda:eu-west-1:${self:custom.accountId}:function:${self:service}"
+                    - "arn:aws:lambda:eu-west-1:${self:custom.accountId}:function:${self:service}:*"
+    AppSyncLoggingServiceRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+        RoleName: "${self:service}-Logging-AppSyncLoggingServiceRole"
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service:
+                  - "appsync.amazonaws.com"
+              Action:
+                - "sts:AssumeRole"
+        Policies:
+          - PolicyName: "Logging-AppSyncLoggingServiceRole"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: "Allow"
+                  Action:
+                    - "logs:CreateLogGroup"
+                    - "logs:CreateLogStream"
+                    - "logs:PutLogEvents"
+                  Resource:
+                    - "*"

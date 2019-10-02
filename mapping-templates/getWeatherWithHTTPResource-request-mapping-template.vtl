@@ -1,0 +1,18 @@
+#set($format = "1")
+#if($context.arguments.format)
+    #set($format = $context.arguments.format)
+#end
+
+{
+    "version": "2018-05-29",
+    "method": "GET", 
+    "resourcePath": "/",
+    "params":{
+        "query": {
+            "format": "$format"
+        },
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}
