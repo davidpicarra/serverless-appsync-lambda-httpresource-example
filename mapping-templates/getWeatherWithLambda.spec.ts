@@ -16,7 +16,7 @@ describe('getWeatherWithLambda', () => {
           {
             getWeatherWithLambda
           }
-        `
+        `,
       })
     })
     it('should return successfully with arguments', async () => {
@@ -25,7 +25,7 @@ describe('getWeatherWithLambda', () => {
           {
             getWeatherWithHTTPResource(format: "2")
           }
-        `
+        `,
       })
     })
   })
@@ -39,8 +39,8 @@ describe('getWeatherWithLambda', () => {
           operation: 'Invoke',
           payload: {
             field: 'getWeatherWithLambda',
-            arguments: '$utils.toJson($context.arguments)'
-          }
+            arguments: '$utils.toJson($context.arguments)',
+          },
         })
       })
     })
@@ -49,11 +49,11 @@ describe('getWeatherWithLambda', () => {
       it('should return json object', () => {
         const context = {
           result: {
-            body: 'foo'
-          }
+            body: 'foo',
+          },
         }
         const response = renderVTL(getWeatherWithLambdaResponse, {
-          context
+          context,
         })
         expect(response.errors).toHaveLength(0)
         expect(response.data).toEqual(context.result)

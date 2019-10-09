@@ -15,7 +15,7 @@ describe('getWeatherWithHTTPResource', () => {
           {
             getWeatherWithHTTPResource
           }
-        `
+        `,
       })
     })
     it('should return successfully with arguments', async () => {
@@ -24,7 +24,7 @@ describe('getWeatherWithHTTPResource', () => {
           {
             getWeatherWithHTTPResource(format: "2")
           }
-        `
+        `,
       })
     })
   })
@@ -39,10 +39,10 @@ describe('getWeatherWithHTTPResource', () => {
           resourcePath: '/',
           params: {
             query: {
-              format: '1'
+              format: '1',
             },
-            headers: { 'Content-Type': 'application/json' }
-          }
+            headers: { 'Content-Type': 'application/json' },
+          },
         })
       })
     })
@@ -53,9 +53,9 @@ describe('getWeatherWithHTTPResource', () => {
           context: {
             result: {
               statusCode: 400,
-              body: 'foo'
-            }
-          }
+              body: 'foo',
+            },
+          },
         })
         expect(response.errors[0].message).toBe('foo')
       })
@@ -64,9 +64,9 @@ describe('getWeatherWithHTTPResource', () => {
           context: {
             result: {
               statusCode: 200,
-              body: 'foo\n'
-            }
-          }
+              body: 'foo\n',
+            },
+          },
         })
         expect(response.errors).toHaveLength(0)
         expect(response.data).toEqual(
