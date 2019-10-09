@@ -12,7 +12,7 @@ plugins:
 
 functions:
   graphql:
-    handler: src/handler.graphqlHandler
+    handler: dist/handler.graphqlHandler
 
 custom:
   accountId: 123456789 # use correct AWS accountId

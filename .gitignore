@@ -65,3 +65,4 @@ junit.xml
 .webpack
 .dynamodb
 .serverless
+dist

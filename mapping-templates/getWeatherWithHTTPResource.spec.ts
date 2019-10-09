@@ -1,27 +1,30 @@
 import gql from 'graphql-tag'
-import { appsyncClient, loadVTL, renderVTL } from '~/jest-utils'
-
-const getWeatherWithHTTPResourceRequest = loadVTL('~/getWeatherWithHTTPResource-request-mapping-template.vtl')
-const getWeatherWithHTTPResourceResponse = loadVTL('~/getWeatherWithHTTPResource-response-mapping-template.vtl')
+import { appsyncClient, loadVTL, renderVTL } from '../jest-utils'
+const getWeatherWithHTTPResourceRequest = loadVTL(
+  '~/getWeatherWithHTTPResource-request-mapping-template.vtl'
+)
+const getWeatherWithHTTPResourceResponse = loadVTL(
+  '~/getWeatherWithHTTPResource-response-mapping-template.vtl'
+)
 
 describe('getWeatherWithHTTPResource', () => {
   describe('query with appsyncClient', () => {
     it('should return successfully without arguments', async () => {
       await appsyncClient.client.query({
         query: gql`
-{
-  getWeatherWithHTTPResource
-}
-        `,
+          {
+            getWeatherWithHTTPResource
+          }
+        `
       })
     })
     it('should return successfully with arguments', async () => {
       await appsyncClient.client.query({
         query: gql`
-{
-  getWeatherWithHTTPResource(format: "2")
-}
-        `,
+          {
+            getWeatherWithHTTPResource(format: "2")
+          }
+        `
       })
     })
   })
@@ -36,10 +39,10 @@ describe('getWeatherWithHTTPResource', () => {
           resourcePath: '/',
           params: {
             query: {
-              format: '1',
+              format: '1'
             },
-            headers: { 'Content-Type': 'application/json' },
-          },
+            headers: { 'Content-Type': 'application/json' }
+          }
         })
       })
     })
@@ -50,9 +53,9 @@ describe('getWeatherWithHTTPResource', () => {
           context: {
             result: {
               statusCode: 400,
-              body: 'foo',
-            },
-          },
+              body: 'foo'
+            }
+          }
         })
         expect(response.errors[0].message).toBe('foo')
       })
@@ -61,12 +64,14 @@ describe('getWeatherWithHTTPResource', () => {
           context: {
             result: {
               statusCode: 200,
-              body: 'foo\n',
-            },
-          },
+              body: 'foo\n'
+            }
+          }
         })
         expect(response.errors).toHaveLength(0)
-        expect(response.data).toEqual('$context.result.body.replaceAll(\'\n\',\'\')')
+        expect(response.data).toEqual(
+          "$context.result.body.replaceAll('\n','')"
+        )
       })
     })
   })

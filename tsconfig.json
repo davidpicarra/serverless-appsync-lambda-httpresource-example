@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"target": "es2017",
+		"module": "commonjs",
+		"outDir": "./dist",
+		"strict": true,
+		"baseUrl": "./",
+		"typeRoots": [
+			"node_modules/@types"
+		],
+		"types": [
+      "jest",
+			"node"
+		],
+		"esModuleInterop": true,
+    "inlineSourceMap": true,
+    "noImplicitAny": false
+  },
+  "include": ["src/**/*", "mapping-templates/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
