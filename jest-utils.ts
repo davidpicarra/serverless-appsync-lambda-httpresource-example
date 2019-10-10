@@ -4,8 +4,7 @@ import { create } from '@conduitvc/appsync-emulator-serverless/util'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
 
-const globalAny:any = global;
-globalAny.fetch = require('node-fetch')
+(global as any).fetch = require('node-fetch')
 
 const appsyncCreated = createAppSync()
 
