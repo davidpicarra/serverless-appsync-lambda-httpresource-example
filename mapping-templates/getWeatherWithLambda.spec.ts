@@ -11,24 +11,19 @@ const getWeatherWithLambdaResponse = loadVTL(
 describe('getWeatherWithLambda', () => {
   describe('query with appsyncClient', () => {
     it('should return successfully without arguments', async () => {
-      try {
-        await appsyncClient.client.query({
-          query: gql`
-            {
-              getWeatherWithLambda
-            }
-          `,
-        })
-      } catch (error) {
-        console.log(error)
-        console.log(error.message)
-      }
+      await appsyncClient.client.query({
+        query: gql`
+          {
+            getWeatherWithLambda
+          }
+        `,
+      })
     })
     it('should return successfully with arguments', async () => {
       await appsyncClient.client.query({
         query: gql`
           {
-            getWeatherWithHTTPResource(format: "2")
+            getWeatherWithLambda(format: "2")
           }
         `,
       })
