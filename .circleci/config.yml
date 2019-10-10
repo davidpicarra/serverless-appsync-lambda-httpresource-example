@@ -51,7 +51,7 @@ jobs:
           command: sudo apt-get update && sudo apt-get install -y lsof zip python3 default-jre
       - run:
           name: "JavaScript Test Suite"
-          command: yarn test --ci --runInBand --reporters=default --reporters=jest-junit
+          command: yarn test --ci --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: "reports/junit/"
       - store_test_results:

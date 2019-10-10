@@ -9,7 +9,6 @@ export const graphqlHandler = async (event: any): Promise<any> => {
     const text = await res.text()
     return text.trim()
   } catch (err) {
-    console.error(err)
     return err
   }
 }

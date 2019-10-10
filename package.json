@@ -16,9 +16,8 @@
     "sls:deploy": "yarn build && sls deploy",
     "sls:remove": "sls remove",
     "docker:build": "docker build -t serverless-appsync-lambda-httpresource-example .",
-    "docker:test": "docker run -v $PWD/:/root/app/ -v node_modules:/root/app/node_modules -ti --rm serverless-appsync-lambda-httpresource-example:latest yarn test",
-    "docker:test:dev": "docker run -v $PWD/:/root/app/ -v node_modules:/root/app/node_modules -ti --rm serverless-appsync-lambda-httpresource-example:latest yarn test:dev",
-    "docker:dev": "docker run -p 3001:3001 -p 62222:62222 -v $PWD/:/root/app/ -v node_modules:/root/app/node_modules -ti --rm serverless-appsync-lambda-httpresource-example:latest yarn dev"
+    "docker:test": "docker run -v $PWD/mapping-templates/:/root/app/mapping-templates/ -v $PWD/src:/root/app/src -ti --rm serverless-appsync-lambda-httpresource-example:latest yarn test",
+    "docker:dev": "docker run -p 3001:3001 -p 62222:62222 -v $PWD/mapping-templates/:/root/app/mapping-templates/ -v $PWD/src:/root/app/src -ti --rm serverless-appsync-lambda-httpresource-example:latest yarn dev"
   },
   "dependencies": {
     "graphql-tag": "^2.10.1",
