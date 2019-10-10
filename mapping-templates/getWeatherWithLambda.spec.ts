@@ -20,7 +20,8 @@ describe('getWeatherWithLambda', () => {
           `,
         })
       } catch (error) {
-        console.log({ error })
+        console.log(error)
+        console.log(error.message)
       }
     })
     it('should return successfully with arguments', async () => {
