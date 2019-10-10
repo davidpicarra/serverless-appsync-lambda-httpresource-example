@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/project/serverless-appsync-lambda-httpresource-example
   docker:
-    - image: circleci/node:10
+    - image: circleci/node:10.16.1
 
 jobs:
   install:
@@ -48,7 +48,7 @@ jobs:
           at: ~/project
       - run:
           name: "Install dependencies needed for running tests"
-          command: sudo apt-get update && sudo apt-get install -y lsof zip python3 default-jre
+          command: sudo apt-get update && sudo apt-get install -y --no-install-recommends lsof zip python3 default-jre
       - run:
           name: "JavaScript Test Suite"
           command: yarn test --ci --reporters=default --reporters=jest-junit
