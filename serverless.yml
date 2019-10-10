@@ -18,12 +18,17 @@ functions:
 custom:
   accountId: 123456789 # use correct AWS accountId
   webpack:
+    includeModules: true
     packager: 'yarn'
+    excludeFiles:
+      - '**/*.spec.*'
   appsync-offline:
     port: 62222
     dynamodb:
       client:
         endpoint: "http://localhost:8000"
+  appsync-emulator:
+    buildPrefix: .webpack/service
   appSync:
     name: ${self:service}
     authenticationType: API_KEY

@@ -3,8 +3,8 @@ import { vtl } from '@conduitvc/appsync-emulator-serverless/vtl'
 import { create } from '@conduitvc/appsync-emulator-serverless/util'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-
-(global as any).fetch = require('node-fetch')
+import json5 from 'json5'
+;(global as any).fetch = require('node-fetch')
 
 const appsyncCreated = createAppSync()
 
@@ -33,7 +33,7 @@ export function renderVTL(
   let errors = []
   let parsedVTL = vtl(vm, { ...context, util: create(errors) }, macros).trim()
   try {
-    parsedVTL = JSON.parse(parsedVTL)
+    parsedVTL = json5.parse(parsedVTL)
   } catch (e) {
     console.warn(e)
   }
