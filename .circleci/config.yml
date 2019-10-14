@@ -36,7 +36,7 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          name: "JavaScript Linter"
+          name: JavaScript Linter
           command: yarn lint --format junit -o reports/junit/js-lint-results.xml
       - store_test_results:
           path: reports/junit
@@ -47,13 +47,16 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          name: "Install dependencies needed for running tests"
+          name: Install dependencies needed for running tests
           command: sudo apt-get update && sudo apt-get install -y --no-install-recommends lsof zip python3 default-jre
       - run:
-          name: "JavaScript Test Suite"
+          name: Build serverless to have dependencies available for test
+          command: yarn build
+      - run:
+          name: JavaScript Test Suite
           command: yarn test --ci --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT_DIR: "reports/junit/"
+            JEST_JUNIT_OUTPUT_DIR: reports/junit/
       - store_test_results:
           path: reports/junit
       - store_artifacts:
@@ -65,7 +68,7 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          name: "Deploy serverless"
+          name: Deploy serverless
           command: echo "yarn sls:deploy"
 
 workflows:

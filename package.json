@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dynamodb-install": "yarn serverless dynamodb install --localPath ./bin",
-    "build": "tsc",
+    "build": "sls webpack",
     "dev": "NODE_DEBUG=appsync-* yarn sls offline start",
     "lint": "prettier --write --parser typescript '**/*.ts'",
     "test": "jest --detectOpenHandles",
