@@ -1,4 +1,4 @@
-FROM node:11
+FROM node:10.16.3
 LABEL maintainer="David Picarra <daviddcp@gmail.com>"
 
 RUN apt-get update && \

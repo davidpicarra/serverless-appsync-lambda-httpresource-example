@@ -1,26 +1,29 @@
 import gql from 'graphql-tag'
-import { appsyncClient, loadVTL, renderVTL } from '~/jest-utils'
-
-const getWeatherWithHTTPResourceRequest = loadVTL('~/getWeatherWithHTTPResource-request-mapping-template.vtl')
-const getWeatherWithHTTPResourceResponse = loadVTL('~/getWeatherWithHTTPResource-response-mapping-template.vtl')
+import { appsyncClient, loadVTL, renderVTL } from '../jest-utils'
+const getWeatherWithHTTPResourceRequest = loadVTL(
+  '~/getWeatherWithHTTPResource-request-mapping-template.vtl'
+)
+const getWeatherWithHTTPResourceResponse = loadVTL(
+  '~/getWeatherWithHTTPResource-response-mapping-template.vtl'
+)
 
 describe('getWeatherWithHTTPResource', () => {
   describe('query with appsyncClient', () => {
     it('should return successfully without arguments', async () => {
       await appsyncClient.client.query({
         query: gql`
-{
-  getWeatherWithHTTPResource
-}
+          {
+            getWeatherWithHTTPResource
+          }
         `,
       })
     })
     it('should return successfully with arguments', async () => {
       await appsyncClient.client.query({
         query: gql`
-{
-  getWeatherWithHTTPResource(format: "2")
-}
+          {
+            getWeatherWithHTTPResource(format: "2")
+          }
         `,
       })
     })
@@ -66,7 +69,9 @@ describe('getWeatherWithHTTPResource', () => {
           },
         })
         expect(response.errors).toHaveLength(0)
-        expect(response.data).toEqual('$context.result.body.replaceAll(\'\n\',\'\')')
+        expect(response.data).toEqual(
+          "$context.result.body.replaceAll('\n','')"
+        )
       })
     })
   })
