@@ -1,4 +1,4 @@
-service: core-cd-api
+service: serverless-appsync-lambda-httpresource-example
 
 provider:
   name: aws
