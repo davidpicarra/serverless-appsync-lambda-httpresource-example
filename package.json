@@ -67,6 +67,7 @@
   },
   "resolutions": {
     "bl": "^1.0.1",
-    "lodash": "^4.17.12"
+    "lodash": "^4.17.12",
+    "https-proxy-agent": "^2.2.3"
   }
 }
