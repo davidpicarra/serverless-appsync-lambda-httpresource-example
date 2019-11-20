@@ -30,17 +30,6 @@ jobs:
           paths:
             - serverless-appsync-lambda-httpresource-example
 
-  lint:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/project
-      - run:
-          name: JavaScript Linter
-          command: yarn lint --format junit -o reports/junit/js-lint-results.xml
-      - store_test_results:
-          path: reports/junit
-
   test:
     <<: *defaults
     steps:
@@ -76,9 +65,6 @@ workflows:
   install-and-parallel-test:
     jobs:
       - install
-      - lint:
-          requires:
-            - install
       - test:
           requires:
             - install

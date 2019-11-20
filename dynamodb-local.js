@@ -1,6 +1,6 @@
 const emulator = require('@conduitvc/dynamodb-emulator/client')
 
-async function main () {
+async function main() {
   console.log('Starting systems...')
   const emu = await emulator.launch()
   emulator.getClient(emu)

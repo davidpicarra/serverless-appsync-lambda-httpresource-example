@@ -25,11 +25,7 @@ export interface GraphQLResponseError {
   message: string
 }
 
-export function renderVTL(
-  vm: string,
-  context: object = {},
-  macros: object = {}
-): GraphQLResponse {
+export function renderVTL(vm: string, context: object = {}, macros: object = {}): GraphQLResponse {
   let errors = []
   let parsedVTL = vtl(vm, { ...context, util: create(errors) }, macros).trim()
   try {
