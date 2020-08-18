@@ -4,6 +4,11 @@ const getWeatherWithHTTPResourceRequest = loadVTL('~/getWeatherWithHTTPResource-
 const getWeatherWithHTTPResourceResponse = loadVTL('~/getWeatherWithHTTPResource-response-mapping-template.vtl')
 
 describe('getWeatherWithHTTPResource', () => {
+  beforeEach(() => {
+    console.log = jest.fn()
+    console.warn = jest.fn()
+  })
+
   describe('query with appsyncClient', () => {
     it('should return successfully without arguments', async () => {
       await appsyncClient.client.query({
