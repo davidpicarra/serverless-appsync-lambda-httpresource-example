@@ -5,6 +5,10 @@ const getWeatherWithLambdaRequest = loadVTL('~/getWeatherWithLambda-request-mapp
 const getWeatherWithLambdaResponse = loadVTL('~/getWeatherWithLambda-response-mapping-template.vtl')
 
 describe('getWeatherWithLambda', () => {
+  beforeEach(() => {
+    console.log = jest.fn()
+  })
+
   describe('query with appsyncClient', () => {
     it('should return successfully without arguments', async () => {
       await appsyncClient.client.query({
