@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run:
           name: Yarn audit packages
-          command: yarn audit
+          command: yarn audit --groups dependencies
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
