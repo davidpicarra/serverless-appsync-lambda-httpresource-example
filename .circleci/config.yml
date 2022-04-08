@@ -10,9 +10,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          name: Yarn audit packages
-          command: yarn audit --groups dependencies
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
